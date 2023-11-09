@@ -1,0 +1,316 @@
+:root {
+    --color-thin-border: rgb(184, 181, 181);
+    --color-dark: #000;
+    --color-dark-200: #6a6a6a;
+    --color-success: rgb(16, 156, 58);
+    --color-agree: rgb(0, 119, 255);
+    --color-danger: rgb(247, 95, 24);
+    --color-white: #fff;
+    --color-whitish: #f0f0f0;
+    --color-gray: gray;
+    --color-gray-400: rgb(173, 173, 173);
+    --color-gray-200: rgb(199, 197, 197);
+    --color-gray-100: rgb(224, 219, 219);
+    --size-thin-border: 1px;
+    --border-rounded: 0.5em;
+    --border-rounded-sm:0.25em; 
+    --border-circle: 50%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+input,
+button,
+label {
+    cursor: pointer;
+}
+
+html,
+body {
+    font-family: 'poppins', Helvetica;
+    position: relative;
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+body>* {
+    padding: 1rem;
+}
+
+.container {
+    max-width: 1440px;
+    margin: auto;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    display: none;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.visible {
+    display: unset;
+}
+
+header {
+    background-color: var(--color-white);
+
+    & h1 {
+        color: var(--color-dark);
+        font-size: 2.5rem;
+        letter-spacing: 0.1rem;
+        font-weight: bolder;
+    }
+}
+
+
+
+main {
+    flex: auto;
+    background-color: var(--color-whitish);
+    box-shadow: inset 0 0 10px var(--color-gray-100);
+}
+
+.add-div {
+    display: flex;
+    justify-content: end;
+}
+
+.add-book {
+    background-color: var(--color-white);
+    border-radius: var(--border-rounded);
+    border: 2px solid var(--color-gray-200);
+    color: var(--color-dark);
+    font-size: 1.25rem;
+    font-weight: bolder;
+    letter-spacing: 0.05rem;
+    padding: 0.4em 0.75em;
+    transition: background-color 0.5s;
+
+    &:hover {
+        background-color: var(--color-gray-100);
+    }
+
+    &:active {
+        opacity: 0.7;
+    }
+}
+
+
+dialog,
+form {
+    border: none;
+    border-radius: var(--border-rounded);
+    margin: auto;
+}
+
+dialog {
+    box-shadow: 0 0 6px 2px var(--color-thin-border);
+    padding: 1.25rem;
+    inset: 0;
+
+    >h3 {
+        text-align: center;
+        padding: 0.5rem;
+    }
+}
+
+form {
+    border: var(--size-thin-border) solid var(--color-dark-200);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.5rem 0.2rem;
+}
+
+.form-item,
+.form-buttons {
+    margin: 0.25rem 0.5rem;
+}
+
+.form-item:nth-child(4) {
+    display: flex;
+    flex-direction: column;
+    flex-flow: row-reverse;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.form-item label {
+
+    &:not([for="read_status"]) {
+        display: block;
+        padding-left: 0.25rem;
+        color: var(--color-gray-200);
+        transform: translate(0.3rem, 1.75rem);
+        transition: all 0.4s;
+    }
+
+    &:has(+ input:focus),
+    &:has(+ input:not(:placeholder-shown)) {
+        transform: translateY(0rem);
+        color: var(--color-dark);
+        font-weight: 700;
+    }
+
+}
+
+
+.form-item input {
+    border: var(--size-thin-border) solid var(--color-thin-border);
+    border-radius: var(--border-rounded);
+    padding: 0.5em;
+    font-size: 1rem;
+    word-spacing: 4px;
+    font-weight: 800;
+    color: var(--color-gray);
+
+    &::placeholder {
+        color: transparent;
+    }
+}
+
+
+
+.form-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+
+    margin-top: 1rem;
+}
+
+.form-buttons button {
+    padding: 0.25em 0.75em;
+    font-size: 1.125rem;
+    border: 0.1rem solid var(--color-thin-border);
+    border-radius: var(--border-rounded);
+    color: var(--color-white);
+    opacity: 0.85;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    &:active {
+        opacity: 8;
+    }
+
+    &[type=cancel] {
+        background-color: var(--color-danger);
+    }
+
+    &[type=submit] {
+        background-color: var(--color-agree);
+    }
+}
+
+
+.books {
+    margin-top: 1rem;
+
+    & h2 {
+        color: var(--color-gray)
+    }
+
+    .book-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+
+        margin-top: 1rem;
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            justify-content: space-between;
+
+            background-color: var(--color-white);
+            border-radius: var(--border-rounded);
+            padding: 1rem;
+            transition: all 0.2s linear;
+            
+            &:hover {
+                transform: scale(1.01) translateY(-4px);
+                box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.2);
+            }
+            .detail {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .buttons {
+                display: flex;
+                justify-content: space-between;
+
+                & button {
+                    border: 1px solid;
+                    border-radius: var(--border-rounded);
+                    color: var(--color-white);
+                    padding: 0.48em 0.75em;
+                    font-size: 1rem;
+                    font-weight: 700;
+                    transition: all 0.2s linear;
+
+                    &[data-read='true'] {
+                        border-color: var(--color-success);
+                        background-color: var(--color-success);
+                        &:hover {
+                            color:var(--color-success);
+                        }
+                    }
+                    &[data-read='false'] {
+                        border-color: var(--color-agree);
+                        background-color: var(--color-agree);
+                        &:hover {
+                            color:var(--color-agree);
+                        }
+                    }
+                    &[data-btn='delete'] {
+                        background-color: var(--color-danger);
+                        &:hover {
+                            color:var(--color-danger);
+                        }
+                    }
+                    &:active {
+                        transition: none;
+                        opacity: 0.5;
+                    }
+                    &:hover{
+                        background-color: var(--color-white);
+                    }
+                }
+            }
+
+        }
+    }
+
+}
+
+
+
+
+footer {
+    text-align: center;
+}
+
+
+@media screen and (max-width:300px) {
+    dialog {
+        padding: 0;
+    }
+}
