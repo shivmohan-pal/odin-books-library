@@ -106,7 +106,7 @@ function displayBooks() {
       card.classList.add("removing");
       setTimeout(()=>{
         removeBook(cardId)
-      },1000);
+      },700);
     });
     readBtns[i].addEventListener("click", () => {
       toggleReadStatus(cardId);
