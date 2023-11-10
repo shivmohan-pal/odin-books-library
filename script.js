@@ -5,9 +5,32 @@ const addBookForm = document.querySelector("#add-book-form");
 const addbookButton = document.querySelector(".add-book");
 const overlay = document.querySelector(".overlay");
 const bookList = document.querySelector(".book-list");
-
-let myLibrary = [];
 var id = 0;
+
+var myLibrary = [
+  {
+    Id: id++,
+    title: "Free ki Aaddat",
+    author: "Santa Claus",
+    pages: 100,
+    read_status: true,
+  },
+  {
+    Id: id++,
+    title: "Trying To Act God",
+    author: "Klaus Schwab",
+    pages: 999,
+    read_status: true,
+  },
+  {
+    Id: id++,
+    title: "Artificial Believes",
+    author: "Mass Media",
+    pages: 9211420,
+    read_status: true,
+  },
+];
+
 const createElement = (tagname, arrayOfclasses, arrayOfAttr) => {
   let element = document.createElement(tagname);
   arrayOfclasses?.forEach((className) => {
@@ -21,17 +44,17 @@ const createElement = (tagname, arrayOfclasses, arrayOfAttr) => {
   return element;
 };
 const bookCard = (bookObj) => {
-  const {title,author,pages,read_status} = bookObj;
+  const { Id, title, author, pages, read_status } = bookObj;
   return ` <div class="detail">
              <h3>${title}</h3>
              <span>${author}</span>
-            <span>${pages} pages</span>
+             <span>${pages} pages</span>
            </div> 
            <div class="buttons">
-            <button data-read="${read_status}">
+            <button id="read" data-id=${Id} data-read="${read_status}">
             ${read_status ? "Read" : "Unread"}
              </button>
-            <button data-btn="delete">Delete</button>
+            <button id="delete" data-id=${Id} data-btn="delete">Delete</button>
            </div>`;
 };
 function Book(object) {
@@ -48,11 +71,46 @@ function addBookToLibrary(object) {
   displayBooks();
 }
 
+function removeBook(cardId) {
+  myLibrary = myLibrary.filter((book) => {
+    return book.Id != cardId;
+  });
+  displayBooks();
+}
+
+function toggleReadStatus(cardId) {
+  myLibrary = myLibrary.map((book) => {
+    if (book.Id === cardId) {
+      return { ...book, read_status: !book.read_status };
+    }
+    return book;
+  });
+  displayBooks();
+}
+
 function displayBooks() {
-  const card = createElement('div',['card']);
-  myLibrary.forEach((book, i) => {
-   card.innerHTML = bookCard(book);
-    bookList.append(card);
+  let children = [];
+  myLibrary.forEach((book) => {
+    const card = createElement("div", ["card"], [{ "data-id": book.Id }]);
+    card.innerHTML = bookCard(book);
+    children.push(card);
+  });
+  bookList.replaceChildren(...children);
+  const bookCardElements = document.querySelectorAll(".book-list .card");
+
+  bookCardElements.forEach((card, i) => {
+    const cardId = Number(card.dataset.id);
+    const readBtns = document.querySelectorAll(".buttons #read");
+    const deleteBtns = document.querySelectorAll(".buttons #delete");
+    deleteBtns[i].addEventListener("click", () => {
+      card.classList.add("removing");
+      setTimeout(()=>{
+        removeBook(cardId)
+      },1000);
+    });
+    readBtns[i].addEventListener("click", () => {
+      toggleReadStatus(cardId);
+    });
   });
 }
 
@@ -78,9 +136,9 @@ addBookForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(addBookForm);
   const newBookData = Object.fromEntries(new Map([...formData.entries()]));
-  // console.log(newBookData);
   addBookToLibrary(newBookData);
   console.log(myLibrary);
   addBookForm.reset();
   dialogForm.close();
 });
+displayBooks();
