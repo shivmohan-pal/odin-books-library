@@ -245,9 +245,10 @@ form {
             background-color: var(--color-white);
             border-radius: var(--border-rounded);
             padding: 1rem;
-            transition: all 0.6s linear;
+            transition: transform 0.4s ease-out ,opacity 0.5s ease-out 0.1s;
             &.removing {
-                transform: translate(100%,-100%)!important;
+                animation: upSlideLeft 0.4s linear forwards;
+                /* transform: translate(100%,-100%)!important; */
                 opacity: 0;
             }
             &:hover {
@@ -312,6 +313,13 @@ form {
 
 }
 
+.no-books-card {
+    display: inline-block;
+    margin: auto;
+    text-align: center;
+    color:var(--color-dark-200);
+    
+}
 
 
 
@@ -319,6 +327,15 @@ footer {
     text-align: center;
 }
 
+
+@keyframes upSlideLeft {
+    50%{
+        transform: translate(0,-100%);
+    }
+    100% {
+        transform: translate(100%,-100%);
+    }
+}
 
 @media screen and (max-width:300px) {
     dialog {

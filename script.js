@@ -10,17 +10,21 @@ var id = 0;
 var myLibrary = [
   {
     Id: id++,
-    title: "Free ki Aaddat",
-    author: "Santa Claus",
+    // title: "Free ki Aaddat",
+    // author: "Santa Claus",
+    title:"Cyber Security",
+    author:"Sanyam Jain",
     pages: 100,
     read_status: true,
   },
   {
     Id: id++,
-    title: "Trying To Act God",
-    author: "Klaus Schwab",
+    // title: "Trying To Act God",
+    // author: "Klaus Schwab",
+    title: "Ethical Person",
+    author: "Anandu K.P",
     pages: 999,
-    read_status: true,
+    read_status: false,
   },
   {
     Id: id++,
@@ -95,23 +99,29 @@ function displayBooks() {
     card.innerHTML = bookCard(book);
     children.push(card);
   });
-  bookList.replaceChildren(...children);
-  const bookCardElements = document.querySelectorAll(".book-list .card");
+  if (children.length === 0) {
+    const noBooksCard = createElement("div", ["no-books-card"]);
+    noBooksCard.textContent = "Library is empty, add books...";
+    bookList.append(noBooksCard);
+  } else {
+    bookList.replaceChildren(...children);
+    const bookCardElements = document.querySelectorAll(".book-list .card");
 
-  bookCardElements.forEach((card, i) => {
-    const cardId = Number(card.dataset.id);
-    const readBtns = document.querySelectorAll(".buttons #read");
-    const deleteBtns = document.querySelectorAll(".buttons #delete");
-    deleteBtns[i].addEventListener("click", () => {
-      card.classList.add("removing");
-      setTimeout(()=>{
-        removeBook(cardId)
-      },700);
+    bookCardElements.forEach((card, i) => {
+      const cardId = Number(card.dataset.id);
+      const readBtns = document.querySelectorAll(".buttons #read");
+      const deleteBtns = document.querySelectorAll(".buttons #delete");
+      deleteBtns[i].addEventListener("click", () => {
+        card.classList.add("removing");
+        setTimeout(() => {
+          removeBook(cardId);
+        }, 500);
+      });
+      readBtns[i].addEventListener("click", () => {
+        toggleReadStatus(cardId);
+      });
     });
-    readBtns[i].addEventListener("click", () => {
-      toggleReadStatus(cardId);
-    });
-  });
+  }
 }
 
 addbookButton.addEventListener("click", function () {
